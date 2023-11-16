@@ -1,0 +1,62 @@
+{
+    
+    "workbench.colorTheme": "Visual Studio Dark",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "code-runner.runInTerminal": true,
+    "files.encoding": "gbk",
+    "grunt.autoDetect": "on",
+    "code-runner.preserveFocus": true,//used to focus mouse
+    "code-runner.ignoreSelection": true,
+
+    "settingsSync.ignoredExtensions": [
+    ],
+    "code-runner.executorMap": {
+        "cpp": "cd $dir && g++ -std=c++14 -I \"D:\\IDE_code_practice\\vs_code\\c++_files\\include\" $fileName -o .\\exe\\$fileNameWithoutExt.exe && .\\exe\\$fileNameWithoutExt.exe",
+        //"objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        //"cpp": "cd $dir && g++ -c $fileName -o exe/$fileNameWithoutExt.exe && 'exe/$fileNameWithoutExt.exe'",
+        //"cpp": "cd $dir && g++ $fileName -o .\\exe\\$fileNameWithoutExt.exe && .\\exe\\$fileNameWithoutExt.exe",
+    "code-runner.clearPreviousOutput": false,
+    "files.autoSave": "afterDelay"
+},
+"files.associations": {
+    "iostream": "cpp",
+    "array": "cpp",
+    "atomic": "cpp",
+    "*.tcc": "cpp",
+    "cctype": "cpp",
+    "clocale": "cpp",
+    "cmath": "cpp",
+    "cstdarg": "cpp",
+    "cstddef": "cpp",
+    "cstdint": "cpp",
+    "cstdio": "cpp",
+    "cstdlib": "cpp",
+    "cwchar": "cpp",
+    "cwctype": "cpp",
+    "deque": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp",
+    "exception": "cpp",
+    "algorithm": "cpp",
+    "memory": "cpp",
+    "memory_resource": "cpp",
+    "optional": "cpp",
+    "string": "cpp",
+    "string_view": "cpp",
+    "system_error": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp",
+    "fstream": "cpp",
+    "initializer_list": "cpp",
+    "iosfwd": "cpp",
+    "istream": "cpp",
+    "limits": "cpp",
+    "new": "cpp",
+    "ostream": "cpp",
+    "sstream": "cpp",
+    "stdexcept": "cpp",
+    "streambuf": "cpp",
+    "typeinfo": "cpp"
+}
+}

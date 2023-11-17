@@ -1,0 +1,52 @@
+/*************************************************************
+    date: March 2019
+	实现二叉树左右子树交换  实现文件    
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "binary_tree.h"
+
+BiTree BiTreeChange(BiTree T)
+// 实现二叉树左右子树的交换
+// 参数：二叉树根指针T
+// 返回：二叉树根指针
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+	int max=10000;
+ 
+     BiTNode* str[max];
+     int k=0;
+     str[k]=0;
+     if(T)
+     {
+         k++;
+         str[k]=T->lchild;
+         T->lchild=T->rchild;
+         T->rchild=str[k];
+         T->lchild=BiTreeChange(T->lchild);
+         T->rchild=BiTreeChange(T->rchild);
+          k++;
+     }
+     return T;
+    /********** End **********/
+}
+
+void PreOrder(BiTree T)
+// 二叉树的先序遍历
+// 参数：二叉树根指针T
+// 输出：二叉树的先序遍历，中间没有空格，末尾不换行。
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if(T!=NULL){
+    printf("%c",T->data);
+    PreOrder(T->lchild);
+    
+    PreOrder(T->rchild);
+    }
+    /********** End **********/
+}
+
+

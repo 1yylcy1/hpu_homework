@@ -1,0 +1,43 @@
+/*************************************************************
+    直接插入排序  实现文件  
+    更新于2020年6月22日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "sort.h"
+	
+void InsertSort(SeqList  &L) /*直接插入排序*/
+{	
+	int i,j;
+	for(i=2;i<=L.length;i++)
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+		 if(L.r[i].key<L.r[i-1].key)/*将L.r[i]插入到前面的有序子序列L.r[1..i-1]中，插入后仍有序*/
+        {
+            L.r[0]=L.r[i]; /*复制为哨兵*/
+            L.r[i]=L.r[i-1];
+            for(j=i-2; L.r[0].key<L.r[j].key; j--)
+                L.r[j+1]=L.r[j]; /*记录后移*/
+            L.r[j+1]=L.r[0]; /*插入*/
+        }    	
+    /********** End **********/		
+}
+void SeqListInput(SeqList &L) /*输入若干记录的关键字，存放到顺序表L中*/
+{
+	int i=1; KeyType x;
+	scanf("%d",&x);
+	while(x!=-1)
+	{
+		L.r[i++].key=x; scanf("%d",&x);
+	}
+	L.length=i-1;
+}
+void SeqListOutput(SeqList L) /*输出顺序表L中各记录的关键字*/
+{
+	int i;
+	for(i=1;i<=L.length;i++)
+		printf("%d ",L.r[i].key);
+	printf("\n");
+}
+

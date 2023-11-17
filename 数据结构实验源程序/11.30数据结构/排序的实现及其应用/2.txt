@@ -1,0 +1,51 @@
+/*************************************************************
+    希尔排序  实现文件    
+    更新于2020年6月22日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "sort.h"
+	
+void ShellInsert(SeqList &L, int d) /*对顺序表L作一趟增量为d的希尔插入排序*/
+{
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+	 int i,j;
+    for(i=d+1;i<=L.length;i++)
+        if(L.r[i].key<L.r[i-d].key)
+        {
+            L.r[0]=L.r[i]; L.r[i]=L.r[i-d];
+            for(j=i-2*d;(j>0)&&(L.r[0].key<L.r[j].key);j-=d)
+                L.r[j+d]=L.r[j]; /*记录后移*/
+            L.r[j+d]=L.r[0]; /*插入*/
+        }
+	/********** End **********/	
+}
+void ShellSort(SeqList &L) /*希尔排序*/
+{
+	int d;
+	d=L.length/2;
+	while(d!=0)  /*调用一趟增量为d的希尔插入排序*/
+	{
+		ShellInsert(L,d); d=d/2;
+	}
+}
+void SeqListInput(SeqList &L) /*输入若干记录的关键字，存放到顺序表L中*/
+{
+	int i=1; KeyType x;
+	scanf("%d",&x);
+	while(x!=-1)
+	{
+		L.r[i++].key=x; scanf("%d",&x);
+	}
+	L.length=i-1;
+}
+void SeqListOutput(SeqList L) /*输出顺序表L中各记录的关键字*/
+{
+	int i;
+	for(i=1;i<=L.length;i++)
+		printf("%d ",L.r[i].key);
+	printf("\n");
+}
+

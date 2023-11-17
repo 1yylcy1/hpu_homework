@@ -1,0 +1,52 @@
+/*************************************************************
+    创建采用邻接表存储的无向图  实现文件 
+    更新于2020年6月17日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "ALGraph.h"
+
+int visited[MAXVEX]; /*设访问标志数组为全局变量*/
+
+void CreateUDG_ALG(ALGraph &g) /*构造无向图的邻接表*/
+{
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    int a, b;
+    ENode *p1, *p2;
+   	scanf("%d%d%d", &g.kind,&g.vexnum, &g.edgenum);
+    for( int i=0; i< g.vexnum; i++){
+        g.vertices[i].vex = i;
+        g.vertices[i].firstarc=NULL;
+    }//创建六个头结点
+    for( int j=0; j< g.edgenum; j++){
+        scanf("%d%d", &a, &b);
+        p1 = new ENode;
+        p1->adjvex = a;
+        p1->weight = 0;
+        p1->nextarc = g.vertices[b].firstarc;
+        g.vertices[b].firstarc = p1;
+        p2 = new ENode;
+        p2->adjvex = b;
+        p2->weight = 0;
+        p2->nextarc = g.vertices[a].firstarc;
+        g.vertices[a].firstarc = p2;
+    }
+    /********** End **********/	
+}
+
+void PrintAdjList(ALGraph g) /*输出邻接表*/
+{
+	int i,w;ENode *p;
+	for(i=0;i<g.vexnum;i++)
+	{
+		printf("%d",g.vertices[i].vex);
+		p=g.vertices[i].firstarc;
+		while(p)
+		{
+			w=p->adjvex;printf("->%d",w);p=p->nextarc;
+		}
+		printf("\n");
+	}    
+}

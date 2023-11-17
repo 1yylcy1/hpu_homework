@@ -1,0 +1,85 @@
+/*************************************************************
+    层次遍历二叉树  实现文件 
+    更新于2020年6月8日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "binary_tree.h"
+
+void SQ_Initiate(SqQueue &Q)
+// 顺序队列的初始化，即构造一个空的顺序队列
+{
+	Q.elem = (QElemType*)malloc(sizeof(QElemType)*MAXSIZE);
+	Q.front=Q.rear=0;
+}
+
+bool SQ_IsEmpty(SqQueue Q)
+// 判断顺序队列是否为空，为空返回true，否则返回false。
+{
+	return Q.front==Q.rear;	
+}
+
+bool SQ_IsFull(SqQueue Q)
+// 判断顺序队列是否为满，为满返回true,否则返回false。
+{
+	return (Q.rear+1)%MAXSIZE==Q.front;	
+}
+
+void SQ_In(SqQueue &Q, QElemType e)
+// 将e入队。即：插入元素e为Q的新的队尾元素。
+{
+   	if(SQ_IsFull(Q)) return;//队满
+	Q.elem[Q.rear]=e;Q.rear=(Q.rear+1)%MAXSIZE;
+}
+
+void SQ_Out(SqQueue &Q, QElemType &e)
+// 从队列Q出队一个元素，即：删除Q的队头元素，用e返回其值。
+{
+    if(SQ_IsEmpty(Q)) return; //队空
+	e=Q.elem[Q.front];Q.front=(Q.front+1)%MAXSIZE;
+}
+
+BiTree CreateBiTree()
+// 利用先序遍历创建二叉树，返回根指针。
+{
+   	BiTree T;char ch;
+	ch=getchar();
+	if(ch=='#') T=NULL; //'#'代表空树		
+	else
+	{
+		T=(BiTNode *)malloc(sizeof(BiTNode)); //生成根结点
+		T->data=ch;
+		T->lchild=CreateBiTree( ); //建立左子树
+		T->rchild=CreateBiTree( ); //建立右子树
+	}
+	return T;  
+}
+
+void HierarchyOrder(BiTree T)
+// 二叉树的层次遍历（借助队列实现）
+// 参数：二叉树根指针T
+// 输出：二叉树的层次遍历，中间没有空格，末尾不换行。
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    SqQueue Q;//定义队列
+	SQ_Initiate(Q);//初始化队列
+	if(T!=NULL){
+		SQ_In(Q,T);//入根
+	}
+	while(!SQ_IsEmpty(Q)){
+		 SQ_Out(Q,T);
+		printf("%c",T->data);
+		if(T->lchild!=NULL)
+			SQ_In(Q,T->lchild);//入根
+		
+		if(T->rchild!=NULL)
+			SQ_In(Q,T->rchild);//入根
+	}
+    /********** End **********/
+}
+
+
+
+

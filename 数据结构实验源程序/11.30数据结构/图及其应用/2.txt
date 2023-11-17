@@ -1,0 +1,62 @@
+/*************************************************************
+    图的深度优先遍历  实现文件 
+    更新于2020年6月17日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "ALGraph.h"
+
+int visited[MAXVEX]; /*设访问标志数组为全局变量*/
+
+void DFSTraverse(ALGraph  g)/*深度优先遍历以邻接表存储的图g*/ 
+{
+	int i;
+	for(i=0;i<g.vexnum;i++) /*访问标志数组初始化*/
+		visited[i]=0;
+	for(i=0;i<g.vexnum;i++)
+		if(!visited[i]) DFS(g,i); /*对尚未访问的顶点调用DFS函数*/
+}
+void DFS(ALGraph  g, int i)/*从未被访问的顶点Vi出发深度优先遍历图g*/ 
+{
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    printf("%d ", i);
+    ENode *p;
+    int w;
+    visited[i]=1;
+   	p=g.vertices[i].firstarc;
+    while(p!=NULL){
+        w=p->adjvex;
+        if(!visited[w]) DFS(g,w);
+        p=p->nextarc;
+    }
+    /********** End **********/		
+}
+void CreateUDG_ALG(ALGraph &g) /*构造无向图的邻接表*/
+{
+	
+	int i,j,k;ENode *p;
+	//printf("请输入图的类型(0-3表示DG,DN,UDG,UDN)、顶点数、边数：\n");
+	scanf("%d%d%d",&g.kind,&g.vexnum,&g.edgenum);
+	for(i=0;i<g.vexnum;i++) /*构造头结点数组*/
+	{
+		g.vertices[i].vex=i;
+		g.vertices[i].firstarc=NULL; /*初始化头结点指针域为空*/
+	}
+	//printf("请按顶点编号从小到大的顺序输入各条边的两顶点：\n");
+	for(k=0;k<g.edgenum;k++) /*构造邻接表*/
+	{
+		scanf("%d%d",&i,&j); /*输入一条边所依附的两个顶点的编号*/
+		/*将顶点Vj插入到第i个单链表的表头，也就是用“头插法”建立一个单链表*/
+		p=(ENode *)malloc(sizeof(ENode)); /*生成表结点*/
+		p->adjvex=j; p->weight=0;
+		p->nextarc=g.vertices[i].firstarc; /*插入表结点*/
+		g.vertices[i].firstarc=p;
+		/*将顶点Vi插入到第j个单链表的表头，也就是用“头插法”建立一个单链表*/
+		p=(ENode *)malloc(sizeof(ENode));
+		p->adjvex=i; p->weight=0;
+		p->nextarc=g.vertices[j].firstarc;
+		g.vertices[j].firstarc=p;
+	}
+}

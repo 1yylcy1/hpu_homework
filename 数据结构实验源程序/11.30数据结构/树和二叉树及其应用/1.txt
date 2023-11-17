@@ -1,0 +1,47 @@
+/*************************************************************
+    date: March 2019
+	二叉树的创建  实现文件    
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "binary_tree.h"
+
+BiTree CreateBiTree()
+// 利用先序遍历创建二叉树，返回根指针。
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+      BiTree root;
+    char ch;
+    scanf("%c",&ch);
+    if(ch=='#')
+        root = NULL;
+    else{
+        root = (BiTree)malloc(sizeof(BiTNode));
+        if(root!=NULL){
+        root-> data = ch;
+        root->lchild = CreateBiTree();
+        root->rchild = CreateBiTree();
+        }
+
+    }
+    return root;
+    /********** End **********/
+}
+
+void InOrder(BiTree T)
+// 二叉树的中序遍历
+// 参数：二叉树根指针T
+// 输出：中间没有空格，末尾不换行。
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+	if(T)
+    {
+        InOrder(T->lchild);
+        printf("%c",T->data);
+        InOrder(T->rchild);
+    }
+    /********** End **********/
+}

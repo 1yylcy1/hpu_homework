@@ -1,0 +1,26 @@
+#include<iostream>
+using namespace std;
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int arr[10]={11,15,8,19,2};
+	for(int i=0;i<5;i++)
+	{
+		for(int k=0;k<5-i-1;k++)
+		{
+			int tmp=0;
+			if(arr[k]>arr[k+1])
+			{
+				tmp=arr[k];
+				arr[k]=arr[k+1];
+				arr[k+1]=tmp;
+			}
+		}
+	}
+	for(int i=0;i<5;i++)
+	{
+		cout<<arr[i]<<endl;
+	}
+	return 0;
+}

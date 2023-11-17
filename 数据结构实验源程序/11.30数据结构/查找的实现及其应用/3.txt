@@ -1,0 +1,75 @@
+/*************************************************************
+    二叉排序树的查找  实现文件
+    更新于2020年7月5日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "search.h"	
+
+BiTree Search_BST(BiTree T, KeyType key, BiTNode **parent)
+{/*在二叉排序树T上查找其关键字等于key的记录结点。若找到返回该结点指针，parent指向其双亲；否则返回空指针，parent指向访问路径上最后一个结点。*/
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    BiTNode *p;   p=T; /*p指向根结点*/
+    while(p)
+    {
+        if(key==p->data.key) return p; /*查找成功，返回该结点指针*/
+        if(key<p->data.key) /*在左子树中继续查找*/
+        {
+            *parent=p; p=p->lchild;
+        }
+        else /*在右子树中继续查找*/
+        {
+            *parent=p; p=p->rchild;
+        }
+    }
+    return NULL; /*查找失败，返回空指针*/
+		
+    /********** End **********/	
+}
+void Insert_BST(BiTree *T, RedType r)/*若二叉排序树T中没有关键字为r.key的记录，则插入*/
+{
+	BiTNode *p,*q,*parent;
+	parent=NULL;
+	p=Search_BST(*T,r.key,&parent); /*查找*/
+	if(p) printf("BST中有结点r，无需插入\n");
+	else
+	{
+		p=parent;
+		q=(BiTNode *)malloc(sizeof(BiTNode)); q->data=r; q->lchild=q->rchild=NULL;
+		if(*T==NULL) *T=q; /*若T为空，则q为新的根*/
+		else if(r.key<p->data.key) p->lchild=q;
+		else p->rchild=q;
+	}
+}
+BiTree Create_BST( ) /*二叉排序树的构造*/
+{/*输入若干记录的关键字（以-1标志结束），生成一棵BST，采用二叉链表存储，返回其根指针T*/
+	BiTree T; RedType r;
+	T=NULL; /*建空树*/
+	scanf("%d",&r.key);
+	while(r.key!=-1)
+	{
+		Insert_BST(&T, r);
+		scanf("%d",&r.key);
+	}
+	return T;
+}
+void PreOrder(BiTree bt) /*先序遍历*/
+{
+	if(bt)
+	{
+		printf("%d ",bt->data.key);
+		PreOrder(bt->lchild);
+		PreOrder(bt->rchild);
+	}
+}
+void InOrder(BiTree bt) /*中序遍历*/
+{
+	if(bt)
+	{
+		InOrder(bt->lchild);
+		printf("%d ",bt->data.key);
+		InOrder(bt->rchild);
+	}
+}

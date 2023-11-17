@@ -1,0 +1,48 @@
+/*************************************************************
+    快速排序  实现文件    
+    更新于2020年6月22日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "sort.h"
+	
+void QuickSort(SeqList &L, int low, int high) /*对顺序表L的子序列L.r[low…high]作快速排序*/
+{
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+	int i,j;
+    if(low>=high)return;
+    L.r[0]=L.r[low]; /*将第一个作枢轴存入r[0]中*/
+    i=low; j=high;
+    while(i<j) /*一趟快速排序*/
+    {
+        while((i<j)&&(L.r[j].key>=L.r[0].key))j--; /*从j向前扫描*/
+        L.r[i]=L.r[j];/*将j所指元素存放到i所指位置*/
+        while((i<j)&&(L.r[i].key<=L.r[0].key))i++; /*从i向后扫描*/
+        L.r[j]=L.r[i];/*将i所指元素存放到j所指位置*/
+    }
+    L.r[i]=L.r[0]; /*将枢轴放入最终位置*/  
+	/********** End **********/
+	/*分别对左、右两部分进行递归排序*/
+	QuickSort(L,low,i-1);/*对左半区L.r[low..i-1]进行快速排序*/
+	QuickSort(L,i+1,high);/*对右半区L.r[i+1..high]进行快速排序*/	
+}
+void SeqListInput(SeqList &L) /*输入若干记录的关键字，存放到顺序表L中*/
+{
+	int i=1; KeyType x;
+	scanf("%d",&x);
+	while(x!=-1)
+	{
+		L.r[i++].key=x; scanf("%d",&x);
+	}
+	L.length=i-1;
+}
+void SeqListOutput(SeqList L) /*输出顺序表L中各记录的关键字*/
+{
+	int i;
+	for(i=1;i<=L.length;i++)
+		printf("%d ",L.r[i].key);
+	printf("\n");
+}
+

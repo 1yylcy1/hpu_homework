@@ -1,0 +1,55 @@
+/*************************************************************
+    堆排序  实现文件    
+    更新于2020年6月22日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "sort.h"
+	
+void HeapAdjust(SeqList &L, int low, int high)
+{/*已知L.r[low..high]中记录的关键字除L.r[low].key之外均满足堆的定义，*/
+ /*调整L.r[low].key，使L.r[low..high]成为一个新大顶堆。*/
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+	 int j;
+    L.r[0]=L.r[low];
+    for(j=2*low;j<=high;j*=2) /*沿较大关键字孩子向下筛选*/
+    {
+        if((j<high)&&(L.r[j].key<L.r[j+1].key))
+            ++j;  /*j为较大关键字的记录的下标*/
+        if(L.r[0].key>=L.r[j].key) break;
+        L.r[low]=L.r[j]; low=j;
+    }
+    L.r[low]=L.r[0]; /*插入在位置low上*/
+	/********** End **********/
+}
+void HeapSort(SeqList &L) /*堆排序*/
+{
+	int i;
+	for(i=L.length/2;i>0;i--)/*从最后一个分支结点(编号为L.length/2)开始调整，建立初始堆*/
+		HeapAdjust(L,i,L.length);
+	for(i=L.length;i>1;i--)
+	{
+		L.r[0]=L.r[1];L.r[1]=L.r[i];L.r[i]=L.r[0];/*将堆顶L.r[1]和当前最后一个记录L.r[i]交换*/
+		HeapAdjust(L,1,i-1);/*将剩余记录L.r[1..i-1]重新调整为堆*/
+	}
+}
+void SeqListInput(SeqList &L) /*输入若干记录的关键字，存放到顺序表L中*/
+{
+	int i=1; KeyType x;
+	scanf("%d",&x);
+	while(x!=-1)
+	{
+		L.r[i++].key=x; scanf("%d",&x);
+	}
+	L.length=i-1;
+}
+void SeqListOutput(SeqList L) /*输出顺序表L中各记录的关键字*/
+{
+	int i;
+	for(i=1;i<=L.length;i++)
+		printf("%d ",L.r[i].key);
+	printf("\n");
+}
+

@@ -1,0 +1,43 @@
+/*************************************************************
+    折半查找  实现文件  
+    更新于2020年6月17日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "search.h"	
+
+int Search_Bin(SSTable L, KeyType key)/*在递增有序的顺序表L中折半查找其关键字等于key的记录*/
+{
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    int low,high,mid;
+    low=1;high=L.length;
+    while(low<=high)
+    {
+        mid=(low+high)/2;
+        if(key==L.r[mid].key) return mid; /*找到*/
+        else if(key<L.r[mid].key) high=mid-1;/*在左半区继续查找*/
+        else low=mid+1; /*在右半区继续查找*/
+    }
+    return 0; /*没找到*/
+		
+    /********** End **********/
+}
+void SSTableInput(SSTable &L) /*输入若干记录的关键字，存放到静态查找表L中*/
+{
+	int i=1; KeyType x;
+	scanf("%d",&x);
+	while(x!=-1)
+	{
+		L.r[i++].key=x; scanf("%d",&x);
+	}
+	L.length=i-1;
+}
+void SSTableOutput(SSTable L) /*输出静态查找表L中各记录的关键字*/
+{
+	int i;
+	for(i=1;i<=L.length;i++)
+		printf("%d ",L.r[i].key);
+	printf("\n");
+}

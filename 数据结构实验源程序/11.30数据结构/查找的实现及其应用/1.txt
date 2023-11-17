@@ -1,0 +1,37 @@
+/*************************************************************
+    顺序查找  实现文件    
+    更新于2020年6月23日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "search.h"
+
+int Search_Seq(SSTable L, KeyType key) 
+{/*在静态查找表L中采用顺序查找法，查找其关键字等于key的记录，若找到返回该记录在表中位置，否则返回0*/
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+     int i;
+    L.r[0].key=key;
+    for(i=L.length; L.r[i].key!=key; i--);
+    return i;
+		
+    /********** End **********/	
+}
+void SSTableInput(SSTable &L) /*输入若干记录的关键字，存放到静态查找表L中*/
+{
+	int i=1; KeyType x;
+	scanf("%d",&x);
+	while(x!=-1)
+	{
+		L.r[i++].key=x; scanf("%d",&x);
+	}
+	L.length=i-1;
+}
+void SSTableOutput(SSTable L) /*输出静态查找表L中各记录的关键字*/
+{
+	int i;
+	for(i=1;i<=L.length;i++)
+		printf("%d ",L.r[i].key);
+	printf("\n");
+}

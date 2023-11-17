@@ -1,0 +1,57 @@
+ #include<iostream>
+#define MAXSIZE 100
+using namespace std;
+typedef struct BiTNode
+{
+	char data;
+	struct BiTNode *lchild,*rchild;
+}BiTNode,*BiTree;
+void CreateBiTree(BiTree &T,char S[],int &i)
+{//先序建立二叉树
+   if(S[i]=='0'){
+        T=NULL;
+    }else{
+        T=new BiTNode;
+        T->data=S[i];
+        CreateBiTree(T->lchild,S,++i);
+        CreateBiTree(T->rchild,S,++i);
+    }
+}
+void LongestPath(BiTree T)
+{//二叉树最长路径的求解
+     BiTree p=T,l[MAXSIZE],s[MAXSIZE];
+    int i,top=0,tag[MAXSIZE],longest=0;
+    while(p||top>0)
+    {
+        while(p) 
+        {
+            s[++top]=p;
+            tag[top]=0;
+            p=p->lchild;
+        }
+        if(tag[top]==1)
+        {
+            if(s[top]->lchild==NULL&&s[top]->rchild==NULL)
+                if(top>longest)
+                {
+                    for(i=1;i<=top;i++)
+                        l[i]=s[i];
+                    longest=top;
+                }
+            top--;    
+        }
+        else if(top>0)
+        {
+            tag[top]=1;
+            p=s[top]->rchild;
+        }
+    }
+    printf("%d\n",longest);
+    for(i=1;i<=longest;i++)
+    {
+        printf("%c",l[i]->data);
+    }
+    printf("\n");
+       
+}
+

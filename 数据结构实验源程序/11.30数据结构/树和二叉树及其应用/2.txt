@@ -1,0 +1,61 @@
+/*************************************************************
+    date: March 2019
+	计算二叉树的深度和结点个数  实现文件    
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "binary_tree.h"
+
+int GetTreeDepth(BiTree T)
+// 计算二叉树的深度
+// 参数：二叉树根指针T
+// 返回：二叉树的深度
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    int lsd=0,rsd=0,max=0;
+    if(T!=NULL)
+    {
+        lsd = GetTreeDepth(T->lchild);
+        rsd = GetTreeDepth(T->rchild);
+        (lsd>rsd)?max=(lsd+1):max=(rsd+1);
+    }
+    return max;
+    /********** End **********/
+}
+
+int GetNodeNumber(BiTree T)
+// 计算二叉树的总结点个数
+// 参数：二叉树根指针T
+// 返回：二叉树的总结点个数
+{
+    // 请在这里补充代码，完成本关任务
+	/********** Begin *********/
+    int count=0;
+    if(T!=NULL)
+      count = GetNodeNumber(T->lchild) + GetNodeNumber(T->rchild) + 1;//根节点
+    return count;
+    /********** End **********/
+}
+
+int GetLeafNodeNumber(BiTree T)
+// 计算二叉树的叶子结点个数
+// 参数：二叉树根指针T
+// 返回：二叉树的叶子结点个数
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    int count=0;
+    if(T!=NULL)
+      {
+          if(T->lchild==NULL&&T->rchild==NULL)
+          count = 1;
+          else
+          count = GetLeafNodeNumber(T->lchild) + GetLeafNodeNumber(T->rchild) ;
+      }
+
+    return count;
+    /********** End **********/
+}
+

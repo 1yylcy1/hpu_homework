@@ -1,0 +1,119 @@
+/*************************************************************
+    图的广度优先遍历  实现文件
+    更新于2020年6月17日
+**************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "ALGraph.h"
+
+int visited[MAXVEX]; /*设访问标志数组为全局变量*/
+
+//每出队一个元素就入队一列元素
+/*函数声明*/
+void InitQueue(SeqQueue &q);
+void EnQueue(SeqQueue &q, datatype x) ;//入队
+void DeQueue(SeqQueue &q, datatype &x);//出队
+int QueueEmpty(SeqQueue q);//判队空
+void BFSTraverse(ALGraph  g) 
+{/*广度优先遍历以邻接表存储的图g，由于BFS要求”先被访问的顶点的邻接点也先被访问”，故需借助队列Q实现*/
+
+/*初始化visited数组*/
+    int t=g.vexnum;SeqQueue Q;ENode *pn;pn=g.vertices[0].firstarc;
+    do{
+        visited[t-1]=0;
+    }
+    while(t--);
+    //初始化队列
+    InitQueue(Q);
+
+    while(pn!=NULL)
+    {
+        EnQueue(Q, pn->adjvex);
+        visited[pn->adjvex]=1;/*每入队一个元素，就将它设置为已经访问过了*/
+        pn=pn->nextarc;   
+    }
+	// 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    while(!QueueEmpty(Q))//如果队不空
+    {
+        DeQueue(Q, Q.front);
+    }
+    for(int j=0;j<g.vexnum;j++)
+    {
+        if(!visited[j])
+        {
+            EnQueue(Q, j);
+            ENode *pn;pn=g.vertices[j].firstarc;//初始化为该出队元素的地址
+            DeQueue(Q, j);//出队一个元素
+            printf("%d ",j);
+            while(pn!=NULL)//把该出队元素所有的未访问的结点入队
+            {
+            if(!visited[pn->adjvex])//如果没有访问过就入队
+                {
+                EnQueue(Q, pn->adjvex);
+                visited[pn->adjvex]=1;
+                pn=pn->nextarc;
+                }    
+            } 
+        }
+    }
+    
+    /********** End **********/		
+}  
+
+void InitQueue(SeqQueue &q)//队列的初始化
+{
+	q.front=q.rear=0;q.len=0;
+}
+int QueueEmpty(SeqQueue q)//判队空
+{
+	if(q.len==0)return 1;
+	else return 0; 
+}
+void EnQueue(SeqQueue &q, datatype x)//将元素x入队
+{
+	if(q.len==MAXSIZE)//判队满
+	{
+		printf("Queue is full\n");return;
+	}
+	q.data[q.rear]=x; q.rear=(q.rear+1)%MAXSIZE;
+	q.len++;
+}
+void DeQueue(SeqQueue &q, datatype &x)//将队头元素出队
+{
+	if(q.len==0)//判队空
+	{
+		printf("Queue is empty\n");return;
+	}
+	x=q.data[q.front]; q.front=(q.front+1)%MAXSIZE;
+	q.len--;
+}
+
+void CreateUDG_ALG(ALGraph &g) /*构造无向图的邻接表*/
+{
+	
+	int i,j,k;ENode *p;
+	//printf("请输入图的类型(0-3表示DG,DN,UDG,UDN)、顶点数、边数：\n");
+	scanf("%d%d%d",&g.kind,&g.vexnum,&g.edgenum);
+	for(i=0;i<g.vexnum;i++) /*构造头结点数组*/
+	{
+		g.vertices[i].vex=i;
+		g.vertices[i].firstarc=NULL; /*初始化头结点指针域为空*/
+	}
+	//printf("请按顶点编号从小到大的顺序输入各条边的两顶点：\n");
+	for(k=0;k<g.edgenum;k++) /*构造邻接表*/
+	{
+		scanf("%d%d",&i,&j); /*输入一条边所依附的两个顶点的编号*/
+		/*将顶点Vj插入到第i个单链表的表头，也就是用“头插法”建立一个单链表*/
+		p=(ENode *)malloc(sizeof(ENode)); /*生成表结点*/
+		p->adjvex=j; p->weight=0;
+		p->nextarc=g.vertices[i].firstarc; /*插入表结点*/
+		g.vertices[i].firstarc=p;
+		/*将顶点Vi插入到第j个单链表的表头，也就是用“头插法”建立一个单链表*/
+		p=(ENode *)malloc(sizeof(ENode));
+		p->adjvex=i; p->weight=0;
+		p->nextarc=g.vertices[j].firstarc;
+		g.vertices[j].firstarc=p;
+	}
+}
